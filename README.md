@@ -25,11 +25,9 @@ NALAM AI does not diagnose diseases. Instead, it helps identify **how urgently a
 - 🔐 Staff login
 - 📊 Patient priority visualization
 
----
+- ## 🔄 How It Works
 
-## 🔄 How It Works
 
-```text
 Patient
    ↓
 Enter Symptoms / Voice Input
@@ -41,11 +39,10 @@ NLP / LLM Symptom Understanding
 Emergency Warning Sign Detection
    ↓
 Triage Classification
-
    ↓
 Next-Step Guidance
-   ↓
-PHC Staff Dashboard## 🩺 Triage Levels
+
+## 🩺 Triage Levels
 
 ### 🟢 Routine
 
@@ -189,7 +186,8 @@ The main idea is:
 - 🔒 Enhanced healthcare data security
 
 
-
 ## 🏥 NALAM AI
 
 **Understand Symptoms. Identify Urgency. Guide the Next Step.**
+
+

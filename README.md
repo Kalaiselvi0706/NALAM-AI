@@ -30,21 +30,21 @@ NALAM AI does not diagnose diseases. Instead, it helps identify **how urgently a
 The AI-Assisted Symptom Triage Chatbot follows a structured process to understand
 user symptoms and provide appropriate urgency-based guidance.
 
-**User Input**
-↓
-**Text / Voice Symptom Input**
-↓
-**Basic Information Collection**
-↓
-**NLP-Based Symptom Extraction**
-↓
-**Emergency Warning Sign Detection**
-↓
-**AI-Assisted Triage Classification**
-↓
-**Urgency Level Identification**
-↓
-**Next-Step Medical Guidance**
+- **User Input**
+-         ↓
+- **Text / Voice Symptom Input**
+-         ↓
+- **Basic Information Collection**
+-         ↓
+- **NLP-Based Symptom Extraction**
+-         ↓
+- **Emergency Warning Sign Detection**
+-         ↓
+- **AI-Assisted Triage Classification**
+-         ↓
+- **Urgency Level Identification**
+-         ↓
+- **Next-Step Medical Guidance**
 
 ## 🩺 Triage Levels
 

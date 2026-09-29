@@ -1,0 +1,6 @@
+{
+  "name": "NALAM AI — AI-Assisted Symptom Triage",
+  "description": "Primary Healthcare Triage Initiative & Rural Health Assistant for multilingual clinical symptom assessment and PHC staff prioritization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

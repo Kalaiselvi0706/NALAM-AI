@@ -186,8 +186,25 @@ The main idea is:
 - 🔒 Enhanced healthcare data security
 
 
+## 💻 Run Locally
+
+**Prerequisites:** Node.js (v18+)
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Build for production:
+   ```bash
+   npm run build
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+---
+
 ## 🏥 NALAM AI
 
 **Understand Symptoms. Identify Urgency. Guide the Next Step.**
-
-

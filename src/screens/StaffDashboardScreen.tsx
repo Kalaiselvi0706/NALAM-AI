@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PriorityCase } from '../data/mockData';
 import { StaffNavTab } from '../components/StaffShell';
+import { useTranslation } from '../context/LanguageContext';
 
 interface StaffDashboardScreenProps {
   cases: PriorityCase[];
@@ -13,6 +14,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
   onSelectCase,
   activeTab,
 }) => {
+  const { t } = useTranslation();
   const [tierFilter, setTierFilter] = useState<'all' | 'emergency' | 'urgent' | 'routine'>('all');
 
   const filteredCases = cases.filter((c) => {
@@ -31,18 +33,18 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
           <div className="flex flex-col space-y-space-xs">
             <div className="flex items-center gap-space-sm">
               <span className="font-headline-sm text-headline-sm text-primary tracking-tight">
-                NALAM AI
+                {t('brand.name')}
               </span>
               <span className="w-1 h-1 rounded-full bg-outline-variant"></span>
-              <span className="font-label-lg text-label-lg text-on-surface">PHC Staff Portal</span>
+              <span className="font-label-lg text-label-lg text-on-surface">{t('dashboard.portal')}</span>
             </div>
             <div className="flex items-center gap-space-sm text-on-surface-variant font-body-sm text-body-sm">
               <span className="material-symbols-outlined text-[18px] text-primary">
                 location_on
               </span>
-              <span>Alangulam Primary Health Center (Node 4082)</span>
+              <span>{t('dashboard.stationNode')}</span>
               <span className="text-outline-variant">|</span>
-              <span>Tirunelveli District Cluster</span>
+              <span>{t('dashboard.district')}</span>
             </div>
           </div>
 
@@ -53,7 +55,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
               </span>
               <span className="font-label-md text-label-md text-on-surface font-semibold">
-                Live Triage Stream Active
+                {t('dashboard.liveStream')}
               </span>
             </div>
             <span className="text-outline-variant">/</span>
@@ -72,7 +74,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
           className="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
         >
           <div className="flex items-center justify-between">
-            <span className="font-label-lg text-label-lg text-on-surface-variant">Total Cases</span>
+            <span className="font-label-lg text-label-lg text-on-surface-variant">{t('dashboard.totalCases')}</span>
             <div className="w-9 h-9 rounded-xl bg-surface-container-low flex items-center justify-center text-on-surface-variant">
               <span className="material-symbols-outlined text-[20px]">folder_shared</span>
             </div>
@@ -82,7 +84,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
               42
             </div>
             <div className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-              Today&apos;s Intake
+              {t('dashboard.todayIntake')}
             </div>
           </div>
         </div>
@@ -93,7 +95,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
           className="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
         >
           <div className="flex items-center justify-between">
-            <span className="font-label-lg text-label-lg text-on-surface-variant">Emergency</span>
+            <span className="font-label-lg text-label-lg text-on-surface-variant">{t('dashboard.emergency')}</span>
             <div className="w-9 h-9 rounded-xl bg-error-container/40 flex items-center justify-center text-error">
               <span
                 className="material-symbols-outlined text-[20px]"
@@ -109,11 +111,11 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                 3
               </span>
               <span className="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-error-container text-on-error-container font-semibold">
-                Priority 1
+                {t('dashboard.priority1')}
               </span>
             </div>
             <div className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-              Immediate doctor review
+              {t('dashboard.immediateDoctorReview')}
             </div>
           </div>
         </div>
@@ -124,7 +126,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
           className="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
         >
           <div className="flex items-center justify-between">
-            <span className="font-label-lg text-label-lg text-on-surface-variant">Urgent</span>
+            <span className="font-label-lg text-label-lg text-on-surface-variant">{t('dashboard.urgent')}</span>
             <div className="w-9 h-9 rounded-xl bg-tertiary-fixed/30 flex items-center justify-center text-tertiary">
               <span
                 className="material-symbols-outlined text-[20px]"
@@ -140,11 +142,11 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                 8
               </span>
               <span className="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-tertiary-fixed text-on-tertiary-fixed font-semibold">
-                Priority 2
+                {t('dashboard.priority2')}
               </span>
             </div>
             <div className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-              Within 2 hours
+              {t('dashboard.within2Hours')}
             </div>
           </div>
         </div>
@@ -155,7 +157,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
           className="flex flex-col justify-between p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
         >
           <div className="flex items-center justify-between">
-            <span className="font-label-lg text-label-lg text-on-surface-variant">Routine</span>
+            <span className="font-label-lg text-label-lg text-on-surface-variant">{t('dashboard.routine')}</span>
             <div className="w-9 h-9 rounded-xl bg-secondary-container/40 flex items-center justify-center text-secondary">
               <span className="material-symbols-outlined text-[20px]">check_circle</span>
             </div>
@@ -166,11 +168,11 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                 31
               </span>
               <span className="px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-secondary-container text-on-secondary-container font-semibold">
-                Standard
+                {t('dashboard.standard')}
               </span>
             </div>
             <div className="font-body-sm text-body-sm text-on-surface-variant mt-1">
-              Standard queue
+              {t('dashboard.standardQueue')}
             </div>
           </div>
         </div>
@@ -220,9 +222,9 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
         {/* Header & Interactive Tabs */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between px-space-xl py-space-lg bg-surface-container-low/40 gap-space-md">
           <div className="flex items-center gap-space-md">
-            <h2 className="font-headline-md text-headline-md text-on-surface">Priority Cases</h2>
+            <h2 className="font-headline-md text-headline-md text-on-surface">{t('dashboard.priorityCases')}</h2>
             <span className="px-2.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
-              Updated Live
+              {t('dashboard.updatedLive')}
             </span>
           </div>
 
@@ -237,7 +239,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              All Cases (42)
+              {t('dashboard.allCasesFilter')} (42)
             </button>
             <button
               type="button"
@@ -248,7 +250,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              Emergency (3)
+              {t('dashboard.emergency')} (3)
             </button>
             <button
               type="button"
@@ -259,7 +261,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              Urgent (8)
+              {t('dashboard.urgent')} (8)
             </button>
             <button
               type="button"
@@ -270,7 +272,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                   : 'text-on-surface-variant hover:text-on-surface'
               }`}
             >
-              Routine (31)
+              {t('dashboard.routine')} (31)
             </button>
           </div>
         </div>
@@ -280,12 +282,12 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
           <table className="w-full text-left">
             <thead>
               <tr className="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
-                <th className="py-space-md px-space-xl font-semibold">Case ID</th>
-                <th className="py-space-md px-space-md font-semibold">Demographic</th>
-                <th className="py-space-md px-space-md font-semibold">Chief Symptom</th>
-                <th className="py-space-md px-space-md font-semibold">Triage Level</th>
-                <th className="py-space-md px-space-md font-semibold">Time</th>
-                <th className="py-space-md px-space-xl text-right font-semibold">Action</th>
+                <th className="py-space-md px-space-xl font-semibold">{t('dashboard.tableCaseId')}</th>
+                <th className="py-space-md px-space-md font-semibold">{t('dashboard.tableDemographic')}</th>
+                <th className="py-space-md px-space-md font-semibold">{t('dashboard.tableChiefSymptom')}</th>
+                <th className="py-space-md px-space-md font-semibold">{t('dashboard.tableTriageLevel')}</th>
+                <th className="py-space-md px-space-md font-semibold">{t('dashboard.tableTime')}</th>
+                <th className="py-space-md px-space-xl text-right font-semibold">{t('dashboard.tableAction')}</th>
               </tr>
             </thead>
             <tbody className="divide-none text-on-surface font-body-md text-body-md">
@@ -312,25 +314,25 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                     {item.triageBadgeLabel === 'Emergency' && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-semibold">
                         <span className="w-2 h-2 rounded-full bg-error"></span>
-                        Emergency
+                        {t('dashboard.emergency')}
                       </span>
                     )}
                     {item.triageBadgeLabel === 'Medical Attention' && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm font-semibold">
                         <span className="w-2 h-2 rounded-full bg-tertiary"></span>
-                        Medical Attention
+                        {t('dashboard.medicalAttention')}
                       </span>
                     )}
                     {item.triageBadgeLabel === 'Routine' && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-semibold">
                         <span className="w-2 h-2 rounded-full bg-secondary"></span>
-                        Routine
+                        {t('dashboard.routine')}
                       </span>
                     )}
                     {item.triageBadgeLabel === 'Urgent' && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-semibold">
                         <span className="w-2 h-2 rounded-full bg-tertiary"></span>
-                        Urgent
+                        {t('dashboard.urgent')}
                       </span>
                     )}
                   </td>
@@ -348,7 +350,7 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
                       }}
                       className="inline-flex items-center gap-1 text-primary hover:text-primary-container font-label-lg text-label-lg font-semibold transition-colors cursor-pointer"
                     >
-                      <span>View Case</span>
+                      <span>{t('dashboard.viewCase')}</span>
                       <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                     </button>
                   </td>
@@ -362,10 +364,10 @@ export const StaffDashboardScreen: React.FC<StaffDashboardScreenProps> = ({
         <div className="px-space-xl py-space-md bg-surface-container-low/30 flex items-center justify-between text-on-surface-variant font-body-sm text-body-sm">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[16px] text-primary">verified</span>
-            <span>AI Auto-Triage confidence verified with ICMR primary health protocols</span>
+            <span>{t('dashboard.footerVerification')}</span>
           </div>
           <div>
-            <span>Showing {filteredCases.length} of 42 active cases</span>
+            <span>{t('dashboard.showingCases')} ({filteredCases.length})</span>
           </div>
         </div>
       </div>

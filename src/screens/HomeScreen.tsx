@@ -1,12 +1,56 @@
 import React, { useState } from 'react';
 import { ASSETS, ScreenId } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
+import { useSpeechRecognition, getRecognitionLanguage } from '../hooks/useSpeechRecognition';
 
 interface HomeScreenProps {
-  onNavigate: (screen: ScreenId) => void;
+  onNavigate: (screen: ScreenId, voiceText?: string) => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
-  const [voiceModalOpen, setVoiceModalOpen] = useState(false);
+  const [voiceDrawerOpen, setVoiceDrawerOpen] = useState(false);
+  const [editableVoiceText, setEditableVoiceText] = useState('');
+  const { t, language } = useTranslation();
+
+  const {
+    isSupported,
+    isListening,
+    transcript,
+    interimTranscript,
+    error: speechError,
+    startListening,
+    stopListening,
+    resetTranscript,
+  } = useSpeechRecognition(language);
+
+  const handleVoiceButtonClick = () => {
+    if (!voiceDrawerOpen) {
+      setVoiceDrawerOpen(true);
+      resetTranscript();
+      setEditableVoiceText('');
+      startListening();
+    } else {
+      if (isListening) {
+        stopListening();
+      } else {
+        startListening();
+      }
+    }
+  };
+
+  // Sync recognized transcript into editable state
+  React.useEffect(() => {
+    if (transcript) {
+      setEditableVoiceText(transcript);
+    }
+  }, [transcript]);
+
+  const currentDisplaySpeech = editableVoiceText || interimTranscript;
+
+  const handleContinueWithVoice = () => {
+    stopListening();
+    onNavigate('symptom-check', editableVoiceText.trim());
+  };
 
   return (
     <div className="relative w-full min-h-[calc(100vh-64px)] bg-[#F7FAFA] flex flex-col justify-between overflow-hidden">
@@ -37,18 +81,18 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
           {/* Tag Pill */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E7F5F3] text-[#087F78] font-bold text-xs tracking-wider uppercase mb-4 shadow-2xs w-fit">
             <span className="w-1.5 h-1.5 rounded-full bg-[#087F78]"></span>
-            <span>NALAM AI</span>
+            <span>{t('home.heroPill')}</span>
           </div>
 
           {/* Main Hero Heading */}
           <h1 className="text-3xl sm:text-4xl lg:text-[48px] font-extrabold text-[#102a27] tracking-tight leading-[1.15] mb-3">
-            Your AI Health <br className="hidden sm:inline" />
-            <span className="text-[#087F78]">Assistant</span>
+            {t('home.heroTitle1')} <br className="hidden sm:inline" />
+            <span className="text-[#087F78]">{t('home.heroTitle2')}</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-base sm:text-lg text-[#546e6b] font-normal leading-relaxed mb-8 sm:mb-10 max-w-xl">
-            Describe your symptoms. Get guidance on what to do next.
+            {t('home.heroSubtitle')}
           </p>
 
           {/* MAIN ASSESSMENT CARD (Slightly wider for reference proportions) */}
@@ -64,10 +108,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
               </div>
               <div className="flex flex-col">
                 <h2 className="text-xl sm:text-2xl font-bold text-[#102a27] tracking-tight">
-                  Immediate Clinical Assessment
+                  {t('home.assessmentTitle')}
                 </h2>
                 <span className="text-xs sm:text-sm text-[#546e6b] font-medium mt-0.5">
-                  No account needed • Private &amp; Secure
+                  {t('home.assessmentSubtitle')}
                 </span>
               </div>
             </div>
@@ -82,46 +126,159 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
               >
                 <div className="flex items-center gap-2.5">
                   <span className="material-symbols-outlined text-[20px]">stethoscope</span>
-                  <span>Start Health Check</span>
+                  <span>{t('home.startCheck')}</span>
                 </div>
                 <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
                   arrow_forward
                 </span>
               </button>
 
-              {/* SECONDARY ACTION */}
+              {/* SECONDARY ACTION: Web Speech API Voice Button */}
               <button
                 type="button"
-                onClick={() => setVoiceModalOpen((prev) => !prev)}
-                className="inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-[#E7F5F3] hover:bg-[#d8ece9] text-[#087F78] font-semibold text-sm sm:text-base transition-all active:scale-[0.99] cursor-pointer shadow-2xs"
+                onClick={handleVoiceButtonClick}
+                className={`inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl font-semibold text-sm sm:text-base transition-all active:scale-[0.99] cursor-pointer shadow-2xs ${
+                  isListening
+                    ? 'bg-rose-50 text-rose-700 border border-rose-200 animate-pulse'
+                    : 'bg-[#E7F5F3] hover:bg-[#d8ece9] text-[#087F78]'
+                }`}
               >
-                <span className="material-symbols-outlined text-[20px]">mic</span>
-                <span>Speak in Your Language</span>
+                <span className={`material-symbols-outlined text-[20px] ${isListening ? 'animate-bounce text-rose-600' : ''}`}>
+                  {isListening ? 'mic' : 'mic'}
+                </span>
+                <span>{isListening ? t('home.listening') : t('home.speakInLanguage')}</span>
               </button>
             </div>
 
-            {/* Embedded Voice Listening State */}
-            {voiceModalOpen && (
-              <div className="flex flex-col items-center justify-center py-5 px-4 bg-[#F7FAFA] border border-[#e5e9eb] rounded-2xl animate-in fade-in zoom-in-95 duration-200">
-                <div className="flex items-center gap-1.5 mb-3">
-                  <span className="w-1.5 h-5 bg-[#087F78] rounded-full animate-bounce"></span>
-                  <span className="w-1.5 h-8 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.15s]"></span>
-                  <span className="w-1.5 h-11 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.3s]"></span>
-                  <span className="w-1.5 h-7 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.1s]"></span>
-                  <span className="w-1.5 h-4 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.25s]"></span>
+            {/* Embedded Live Voice Recognition State Drawer */}
+            {voiceDrawerOpen && (
+              <div className="flex flex-col py-4 px-4 bg-[#F7FAFA] border border-[#e5e9eb] rounded-2xl animate-in fade-in zoom-in-95 duration-200">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`w-2.5 h-2.5 rounded-full ${
+                        isListening ? 'bg-rose-500 animate-ping' : 'bg-[#087F78]'
+                      }`}
+                    ></span>
+                    <span className="text-xs font-semibold text-[#102a27]">
+                      {isListening
+                        ? `${t('home.listening')} (${getRecognitionLanguage(language)})`
+                        : t('home.listeningDesc')}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {isListening ? (
+                      <button
+                        type="button"
+                        onClick={stopListening}
+                        className="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-700 text-xs font-medium hover:bg-rose-200 cursor-pointer"
+                      >
+                        {t('chat.stopSpeaking')}
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={startListening}
+                        className="px-2.5 py-1 rounded-lg bg-[#E7F5F3] text-[#087F78] text-xs font-medium hover:bg-[#d8ece9] cursor-pointer flex items-center gap-1"
+                      >
+                        <span className="material-symbols-outlined text-[14px]">mic</span>
+                        <span>{t('chat.tapToSpeak')}</span>
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        stopListening();
+                        setVoiceDrawerOpen(false);
+                      }}
+                      className="text-[#546e6b] hover:text-[#102a27] p-1 cursor-pointer"
+                      title={t('common.close')}
+                    >
+                      <span className="material-symbols-outlined text-[18px]">close</span>
+                    </button>
+                  </div>
                 </div>
-                <span className="text-sm font-semibold text-[#102a27]">
-                  Listening to your voice...
-                </span>
-                <span className="text-xs text-[#546e6b] text-center mt-0.5">
-                  பேசலாம்... அல்லது बोलिए (Speak in Tamil, Hindi, or English)
-                </span>
+
+                {/* Animated Speech Waveform when actively listening */}
+                {isListening && (
+                  <div className="flex items-center justify-center gap-1.5 py-3 mb-2">
+                    <span className="w-1.5 h-4 bg-[#087F78] rounded-full animate-bounce"></span>
+                    <span className="w-1.5 h-7 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.15s]"></span>
+                    <span className="w-1.5 h-10 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.3s]"></span>
+                    <span className="w-1.5 h-6 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.1s]"></span>
+                    <span className="w-1.5 h-3 bg-[#087F78] rounded-full animate-bounce [animation-delay:0.25s]"></span>
+                  </div>
+                )}
+
+                {/* Speech Recognition Error Notice */}
+                {speechError && (
+                  <div className="p-3 mb-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[18px] text-amber-600">
+                      info
+                    </span>
+                    <span>
+                      {speechError.includes('denied')
+                        ? t('home.speechDenied')
+                        : speechError.includes('supported')
+                        ? t('home.speechUnsupported')
+                        : speechError}
+                    </span>
+                  </div>
+                )}
+
+                {/* Browser Unsupported Fallback Notice */}
+                {!isSupported && (
+                  <div className="p-3 mb-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[18px] text-amber-600">
+                      warning
+                    </span>
+                    <span>{t('home.speechUnsupported')}</span>
+                  </div>
+                )}
+
+                {/* Recognized Speech Transcript Area with User Review / Edit Ability */}
+                <div className="flex flex-col gap-1.5 mb-3">
+                  <div className="flex items-center justify-between text-[11px] text-[#546e6b]">
+                    <span>{t('home.reviewSpoken')}</span>
+                    {editableVoiceText && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditableVoiceText('');
+                          resetTranscript();
+                        }}
+                        className="text-xs text-rose-600 hover:underline cursor-pointer"
+                      >
+                        {t('home.clearText')}
+                      </button>
+                    )}
+                  </div>
+                  <textarea
+                    rows={2}
+                    value={currentDisplaySpeech}
+                    onChange={(e) => setEditableVoiceText(e.target.value)}
+                    placeholder={
+                      isListening
+                        ? t('chat.listeningState')
+                        : 'Spoken text will appear here. You can also edit it before proceeding.'
+                    }
+                    className="w-full p-2.5 bg-white border border-[#e5e9eb] rounded-xl text-sm text-[#102a27] focus:outline-none focus:border-[#087F78] transition-colors resize-none"
+                  />
+                </div>
+
+                {/* Action to continue into Symptom Chat with the transcribed text */}
                 <button
                   type="button"
-                  onClick={() => onNavigate('symptom-check')}
-                  className="mt-3.5 px-4 py-2 rounded-xl bg-[#087F78] text-white text-xs font-semibold hover:bg-[#00685f] shadow-2xs transition-colors cursor-pointer flex items-center gap-1.5"
+                  onClick={handleContinueWithVoice}
+                  disabled={!editableVoiceText.trim() && !interimTranscript.trim()}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xs transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                    editableVoiceText.trim() || interimTranscript.trim()
+                      ? 'bg-[#087F78] text-white hover:bg-[#00685f]'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  }`}
                 >
-                  <span>Continue to Voice Triage</span>
+                  <span>{t('home.continueChat')}</span>
                   <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
                 </button>
               </div>
@@ -140,9 +297,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
               <span className="material-symbols-outlined text-[20px]">schedule</span>
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-xs sm:text-sm font-bold text-[#102a27]">Quick Assessment</span>
+              <span className="text-xs sm:text-sm font-bold text-[#102a27]">
+                {t('feat.quickAssessment')}
+              </span>
               <span className="text-[11px] sm:text-xs text-[#546e6b] truncate">
-                Get guidance in minutes
+                {t('feat.quickAssessmentSub')}
               </span>
             </div>
           </div>
@@ -154,10 +313,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs sm:text-sm font-bold text-[#102a27]">
-                For Rural Communities
+                {t('feat.ruralCommunity')}
               </span>
               <span className="text-[11px] sm:text-xs text-[#546e6b] truncate">
-                Designed for local needs
+                {t('feat.ruralCommunitySub')}
               </span>
             </div>
           </div>
@@ -168,9 +327,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
               <span className="material-symbols-outlined text-[20px]">verified_user</span>
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-xs sm:text-sm font-bold text-[#102a27]">Safe &amp; Private</span>
+              <span className="text-xs sm:text-sm font-bold text-[#102a27]">
+                {t('feat.safePrivate')}
+              </span>
               <span className="text-[11px] sm:text-xs text-[#546e6b] truncate">
-                Your data is protected
+                {t('feat.safePrivateSub')}
               </span>
             </div>
           </div>
@@ -185,10 +346,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs sm:text-sm font-bold text-[#102a27] group-hover:text-[#087F78] transition-colors">
-                Accessible Care
+                {t('feat.accessibleCare')}
               </span>
               <span className="text-[11px] sm:text-xs text-[#546e6b] truncate">
-                Connect to nearby PHCs
+                {t('feat.accessibleCareSub')}
               </span>
             </div>
           </div>
@@ -197,11 +358,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate }) => {
         {/* Minimal Clinical Advisory Disclaimer */}
         <div className="text-center">
           <p className="text-[11px] text-[#889d9a] leading-relaxed">
-            Not a medical diagnosis. In medical emergencies, immediately call{' '}
-            <a href="tel:108" className="font-semibold text-[#9b1c1c] hover:underline">
-              108
-            </a>
-            .
+            {t('common.disclaimer')}
           </p>
         </div>
       </div>

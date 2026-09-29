@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ScreenId } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
 
 interface TriageResultScreenProps {
   onNavigate: (screen: ScreenId) => void;
@@ -7,6 +8,7 @@ interface TriageResultScreenProps {
 
 export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNavigate }) => {
   const [showShareToast, setShowShareToast] = useState(false);
+  const { t } = useTranslation();
 
   const handleShare = () => {
     const textToShare =
@@ -30,13 +32,13 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-lg">
           <div className="flex items-center gap-space-sm">
             <span className="inline-flex items-center px-3 py-1 rounded-full bg-surface-container font-label-sm text-label-sm font-semibold text-on-surface-variant uppercase tracking-wider">
-              Official Triage Record
+              {t('triage.recordTitle')}
             </span>
             <span className="font-label-md text-label-md text-outline">TN-4082-89</span>
           </div>
           <div className="flex items-center gap-space-sm text-outline font-label-md text-label-md">
             <span className="inline-block w-2 h-2 rounded-full bg-secondary"></span>
-            <span>Evaluated Today • 10:42 AM IST</span>
+            <span>{t('triage.evaluatedToday')}</span>
           </div>
         </div>
 
@@ -62,16 +64,15 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
             <div className="inline-flex items-center gap-space-sm px-5 py-2.5 rounded-full bg-[#FEF3C7] text-amber-950 shadow-sm mb-space-md">
               <span className="inline-block w-3 h-3 rounded-full bg-amber-500 shadow-sm"></span>
               <span className="font-headline-sm text-headline-sm uppercase tracking-wide">
-                Medical Attention Recommended
+                {t('triage.badgeRecommended')}
               </span>
             </div>
 
             <h1 className="font-headline-lg text-headline-lg text-on-surface max-w-2xl tracking-tight mb-space-sm">
-              Visit Your Primary Health Center
+              {t('triage.headline')}
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-space-xl">
-              Your symptoms should be evaluated by a healthcare professional at your local Primary
-              Health Center within 24 hours.
+              {t('triage.body')}
             </p>
 
             {/* 3 Summary Sub-Cards */}
@@ -80,13 +81,15 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
                 <div className="flex items-center gap-space-xs text-outline mb-space-sm">
                   <span className="material-symbols-outlined text-[18px]">emergency_home</span>
                   <span className="font-label-sm text-label-sm uppercase tracking-wider font-semibold">
-                    Triage Code
+                    {t('triage.code')}
                   </span>
                 </div>
                 <div>
-                  <p className="font-headline-sm text-headline-sm text-on-surface">Priority 2</p>
+                  <p className="font-headline-sm text-headline-sm text-on-surface">
+                    {t('triage.priorityLevel')}
+                  </p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
-                    Sub-acute • Timely PHC Care
+                    {t('triage.codeSub')}
                   </p>
                 </div>
               </div>
@@ -95,7 +98,7 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
                 <div className="flex items-center gap-space-xs text-outline mb-space-sm">
                   <span className="material-symbols-outlined text-[18px]">diagnosis</span>
                   <span className="font-label-sm text-label-sm uppercase tracking-wider font-semibold">
-                    Observation
+                    {t('triage.observation')}
                   </span>
                 </div>
                 <div>
@@ -103,7 +106,7 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
                     Persistent Cough
                   </p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
-                    Mild febrile state noted
+                    {t('triage.observationDesc')}
                   </p>
                 </div>
               </div>
@@ -120,7 +123,7 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
                     Hydrate &amp; Rest
                   </p>
                   <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
-                    Avoid heavy exertion
+                    {t('triage.suggestedActionDesc')}
                   </p>
                 </div>
               </div>
@@ -133,7 +136,7 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
                 onClick={() => onNavigate('phc-locator')}
                 className="w-full sm:flex-1 h-14 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-space-sm shadow-lg transition-transform active:scale-[0.98] cursor-pointer"
               >
-                <span>Find Nearby PHC &amp; Schedule</span>
+                <span>{t('triage.findNearbyPhc')}</span>
                 <span className="material-symbols-outlined text-[22px]">arrow_forward</span>
               </button>
 
@@ -143,13 +146,13 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
                 className="w-full sm:w-auto h-14 px-space-lg rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-lg text-label-lg flex items-center justify-center gap-space-sm transition-colors cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[20px] text-primary">share</span>
-                <span>Share via WhatsApp / SMS</span>
+                <span>{t('triage.shareRecord')}</span>
               </button>
             </div>
 
             {showShareToast && (
               <div className="mt-space-md px-space-md py-2 rounded-lg bg-inverse-surface text-inverse-on-surface font-label-sm text-label-sm transition-opacity">
-                Triage summary link copied to clipboard for field sharing
+                {t('triage.toastShared')}
               </div>
             )}
           </div>
@@ -157,7 +160,7 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
           <div className="bg-surface-container-low/70 px-space-lg sm:px-space-xl py-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm">
             <div className="flex items-center gap-space-sm text-outline font-label-sm text-label-sm">
               <span className="material-symbols-outlined text-[18px] text-primary">verified</span>
-              <span>Validated against National Rural Health Clinical Protocol 2024</span>
+              <span>Validated against National Rural Health Clinical Protocol</span>
             </div>
             <div className="flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
               <span className="material-symbols-outlined text-[16px]">location_on</span>
@@ -174,11 +177,10 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm w-full">
             <div>
               <p className="font-headline-sm text-headline-sm text-on-error-container">
-                Emergency Advisory
+                {t('common.emergency')}
               </p>
               <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5 max-w-2xl">
-                AI-assisted triage only. Not a medical diagnosis. If symptoms worsen suddenly or
-                breathing becomes difficult, immediately dial 108.
+                {t('common.disclaimer')}
               </p>
             </div>
             <a
@@ -186,7 +188,7 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
               href="tel:108"
             >
               <span className="material-symbols-outlined text-[18px]">call</span>
-              <span>Call 108</span>
+              <span>{t('common.emergencyDial')}</span>
             </a>
           </div>
         </div>
@@ -194,3 +196,4 @@ export const TriageResultScreen: React.FC<TriageResultScreenProps> = ({ onNaviga
     </div>
   );
 };
+

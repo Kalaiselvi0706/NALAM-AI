@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ASSETS, ScreenId } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
 
 export type StaffNavTab = 'triage-queue' | 'active-cases' | 'urgent-referrals' | 'phc-analytics';
 
@@ -17,6 +18,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
   children,
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen">
@@ -34,10 +36,10 @@ export const StaffShell: React.FC<StaffShellProps> = ({
           />
           <div className="flex flex-col">
             <span className="font-headline-sm text-headline-sm text-primary tracking-tight leading-none">
-              NALAM AI
+              {t('brand.name')}
             </span>
             <span className="font-label-sm text-label-sm text-secondary font-semibold leading-tight">
-              PHC Staff Portal
+              {t('dashboard.portal')}
             </span>
           </div>
         </button>
@@ -50,7 +52,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
                 Shift: Active
               </span>
               <span className="font-label-sm text-label-sm text-on-surface-variant">
-                Rural Health Mission
+                {t('login.mission')}
               </span>
             </div>
           </div>
@@ -70,7 +72,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
             }`}
           >
             <span className="material-symbols-outlined text-[20px]">grid_view</span>
-            <span className="font-label-lg text-label-lg">Triage Queue</span>
+            <span className="font-label-lg text-label-lg">{t('dashboard.tabQueue')}</span>
           </button>
 
           <button
@@ -86,7 +88,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
             }`}
           >
             <span className="material-symbols-outlined text-[20px]">clinical_notes</span>
-            <span className="font-label-lg text-label-lg">Active Cases</span>
+            <span className="font-label-lg text-label-lg">{t('dashboard.tabActive')}</span>
           </button>
 
           <button
@@ -102,7 +104,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
             }`}
           >
             <span className="material-symbols-outlined text-[20px]">emergency_home</span>
-            <span className="font-label-lg text-label-lg">Referrals &amp; 108</span>
+            <span className="font-label-lg text-label-lg">{t('dashboard.tabReferrals')}</span>
           </button>
 
           <button
@@ -118,7 +120,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
             }`}
           >
             <span className="material-symbols-outlined text-[20px]">monitoring</span>
-            <span className="font-label-lg text-label-lg">Epidemic Pulse</span>
+            <span className="font-label-lg text-label-lg">{t('dashboard.tabAnalytics')}</span>
           </button>
         </nav>
 
@@ -141,7 +143,7 @@ export const StaffShell: React.FC<StaffShellProps> = ({
               type="button"
               onClick={() => onNavigate('staff-login')}
               className="p-1 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/40 transition-colors cursor-pointer"
-              title="Sign Out"
+              title={t('common.signOut')}
             >
               <span className="material-symbols-outlined text-[20px]">logout</span>
             </button>

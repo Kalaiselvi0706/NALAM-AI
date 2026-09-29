@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ASSETS, LanguageCode, ScreenId } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
 
 interface PublicShellProps {
   currentScreen: ScreenId;
@@ -9,14 +10,20 @@ interface PublicShellProps {
   children: React.ReactNode;
 }
 
-const SIDEBAR_ITEMS: { id: ScreenId; label: string; icon: string }[] = [
-  { id: 'home', label: 'Home', icon: 'home' },
-  { id: 'symptom-check', label: 'Symptom Chat', icon: 'chat' },
-  { id: 'triage-result', label: 'Triage Record', icon: 'assignment_turned_in' },
-  { id: 'staff-login', label: 'Staff Login', icon: 'badge' },
-  { id: 'staff-dashboard', label: 'PHC Triage Queue', icon: 'grid_view' },
-  { id: 'case-detail', label: 'Case Review', icon: 'e911_emergency' },
-  { id: 'phc-locator', label: 'Nearby PHC Center', icon: 'pin_drop' },
+interface SidebarItemDef {
+  id: ScreenId;
+  labelKey: string;
+  icon: string;
+}
+
+const SIDEBAR_ITEMS: SidebarItemDef[] = [
+  { id: 'home', labelKey: 'nav.home', icon: 'home' },
+  { id: 'symptom-check', labelKey: 'nav.symptomChat', icon: 'chat' },
+  { id: 'triage-result', labelKey: 'nav.triageRecord', icon: 'assignment_turned_in' },
+  { id: 'staff-login', labelKey: 'nav.staffLogin', icon: 'badge' },
+  { id: 'staff-dashboard', labelKey: 'nav.staffDashboard', icon: 'grid_view' },
+  { id: 'case-detail', labelKey: 'nav.caseReview', icon: 'e911_emergency' },
+  { id: 'phc-locator', labelKey: 'nav.phcLocator', icon: 'pin_drop' },
 ];
 
 export const PublicShell: React.FC<PublicShellProps> = ({
@@ -28,6 +35,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [infoModal, setInfoModal] = useState<'privacy' | 'guidelines' | null>(null);
+  const { t } = useTranslation();
 
   const handleNavClick = (screen: ScreenId) => {
     onNavigate(screen);
@@ -53,10 +61,10 @@ export const PublicShell: React.FC<PublicShellProps> = ({
             />
             <div className="flex flex-col">
               <span className="font-extrabold text-lg text-[#087F78] tracking-tight leading-tight">
-                NALAM AI
+                {t('brand.name')}
               </span>
               <span className="text-[11px] text-[#546e6b] font-medium leading-tight mt-0.5">
-                AI-Assisted<br />Symptom Triage
+                {t('brand.subtitle')}
               </span>
             </div>
           </button>
@@ -88,7 +96,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                 >
                   {item.icon}
                 </span>
-                <span className="truncate">{item.label}</span>
+                <span className="truncate">{t(item.labelKey)}</span>
               </button>
             );
           })}
@@ -112,8 +120,8 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                   referrerPolicy="no-referrer"
                 />
                 <div className="flex flex-col">
-                  <span className="font-bold text-base text-[#087F78]">NALAM AI</span>
-                  <span className="text-[10px] text-[#546e6b]">AI Symptom Triage</span>
+                  <span className="font-bold text-base text-[#087F78]">{t('brand.name')}</span>
+                  <span className="text-[10px] text-[#546e6b]">{t('brand.subtitle')}</span>
                 </div>
               </div>
               <button
@@ -148,7 +156,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                     >
                       {item.icon}
                     </span>
-                    <span>{item.label}</span>
+                    <span>{t(item.labelKey)}</span>
                   </button>
                 );
               })}
@@ -180,7 +188,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                   : 'text-[#546e6b] hover:text-[#087F78] hover:bg-[#f2f7f6]'
               }`}
             >
-              Symptom Check
+              {t('header.symptomCheck')}
             </button>
             <button
               type="button"
@@ -195,7 +203,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
               }}
               className="px-3 py-1.5 rounded-xl transition-all cursor-pointer text-xs sm:text-sm font-medium whitespace-nowrap text-[#546e6b] hover:text-[#087F78] hover:bg-[#f2f7f6]"
             >
-              How It Works
+              {t('header.howItWorks')}
             </button>
             <button
               type="button"
@@ -206,7 +214,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                   : 'text-[#546e6b] hover:text-[#087F78] hover:bg-[#f2f7f6]'
               }`}
             >
-              Nearby PHC Center
+              {t('header.nearbyPhc')}
             </button>
           </nav>
         </div>
@@ -219,7 +227,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#fde8e8] text-[#9b1c1c] border border-[#fbd5d5] hover:bg-[#fbd5d5] text-xs font-semibold transition-colors whitespace-nowrap shadow-2xs"
           >
             <span className="material-symbols-outlined text-[15px] text-[#9b1c1c]">emergency</span>
-            <span>Emergency: 108 / 104</span>
+            <span>{t('common.emergency')}</span>
           </a>
 
           {/* Clean White Rounded Language Selector */}
@@ -265,7 +273,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
             onClick={() => onNavigate('staff-login')}
             className="hidden sm:inline-flex items-center px-3.5 py-1.5 rounded-xl bg-[#E7F5F3] text-[#087F78] hover:bg-[#d8ece9] font-semibold text-xs transition-all cursor-pointer whitespace-nowrap shadow-2xs"
           >
-            Staff Login
+            {t('common.staffLogin')}
           </button>
 
           {/* Profile / Station Button */}
@@ -292,7 +300,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                 health_and_safety
               </span>
               <span className="font-medium">
-                NALAM AI • Primary Healthcare Triage Initiative
+                {t('brand.name')} • {t('brand.initiative')}
               </span>
             </div>
             <div className="flex items-center gap-6 font-medium">
@@ -301,18 +309,18 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                 onClick={() => setInfoModal('privacy')}
                 className="hover:text-[#00685f] cursor-pointer"
               >
-                Clinical Privacy Notice
+                {t('common.privacyNotice')}
               </button>
               <button
                 type="button"
                 onClick={() => setInfoModal('guidelines')}
                 className="hover:text-[#00685f] cursor-pointer"
               >
-                Field Worker Guidelines
+                {t('common.fieldWorkerGuidelines')}
               </button>
             </div>
             <span className="text-[#889d9a]">
-              © Rural Health Mission • National Health Portal
+              {t('common.copyright')}
             </span>
           </div>
         </footer>
@@ -329,8 +337,8 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                 </span>
                 <h3 className="font-bold text-base text-[#191c1e]">
                   {infoModal === 'privacy'
-                    ? 'Clinical Privacy & Data Governance Notice'
-                    : 'ASHA & Field Worker Triage Guidelines'}
+                    ? t('common.privacyNotice')
+                    : t('common.fieldWorkerGuidelines')}
                 </h3>
               </div>
               <button
@@ -352,7 +360,7 @@ export const PublicShell: React.FC<PublicShellProps> = ({
                 onClick={() => setInfoModal(null)}
                 className="px-4 py-2 rounded-xl bg-[#00685f] text-white text-xs font-semibold hover:bg-[#005049] cursor-pointer"
               >
-                Acknowledge
+                {t('common.acknowledge')}
               </button>
             </div>
           </div>
@@ -361,3 +369,4 @@ export const PublicShell: React.FC<PublicShellProps> = ({
     </div>
   );
 };
+

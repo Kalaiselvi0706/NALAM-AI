@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ASSETS, ScreenId } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
 
 interface StaffLoginScreenProps {
   onNavigate: (screen: ScreenId) => void;
@@ -12,6 +13,7 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
   const [rememberTerminal, setRememberTerminal] = useState(true);
   const [authStatus, setAuthStatus] = useState<'idle' | 'authenticating' | 'authenticated'>('idle');
   const [showForgotNote, setShowForgotNote] = useState(false);
+  const { t } = useTranslation();
 
   const handleStaffLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +49,7 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
             <div className="relative z-10 flex items-center gap-space-sm">
               <div className="inline-flex items-center gap-2 px-space-md py-1.5 rounded-full bg-surface-container-lowest/20 backdrop-blur-md text-on-primary font-label-md text-label-md">
                 <span className="w-2 h-2 rounded-full bg-secondary-fixed animate-pulse"></span>
-                <span>PHC Clinical Node 4082 • Online</span>
+                <span>{t('login.badge')}</span>
               </div>
             </div>
 
@@ -55,23 +57,22 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
             <div className="relative z-10 flex flex-col gap-space-md mt-auto pt-space-xl">
               <div className="flex items-center gap-space-sm">
                 <span className="px-space-sm py-1 rounded bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm uppercase tracking-wider">
-                  Rural Health Mission
+                  {t('login.mission')}
                 </span>
                 <span className="font-label-sm text-label-sm text-surface-container-high/80">
-                  Authorized Staff Terminal
+                  {t('login.authorizedTerminal')}
                 </span>
               </div>
               <div className="space-y-1">
                 <h1 className="font-headline-xl text-headline-xl text-on-primary tracking-tight font-bold">
-                  NALAM AI
+                  {t('brand.name')}
                 </h1>
                 <p className="font-headline-md text-headline-md text-secondary-fixed font-semibold tracking-tight">
-                  AI-Assisted Symptom Triage
+                  {t('brand.subtitle')}
                 </p>
               </div>
               <p className="font-body-lg text-body-lg text-surface-container-lowest/90 max-w-lg leading-relaxed">
-                Connecting patients with the right healthcare support. Assisting medical officers,
-                staff nurses, and field workers with evidence-based rapid clinical prioritization.
+                {t('login.subtitle')}
               </p>
 
               {/* Trust Badges & Clinical Protocol Footer Strip */}
@@ -108,15 +109,14 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
                 </div>
                 <div className="space-y-1">
                   <h2 className="font-headline-lg text-headline-lg text-on-surface font-bold tracking-tight">
-                    Welcome Back
+                    {t('login.title')}
                   </h2>
                   <p className="font-label-lg text-label-lg text-primary font-semibold">
-                    PHC Staff Portal
+                    {t('login.authorizedTerminal')}
                   </p>
                 </div>
                 <p className="font-body-sm text-body-sm text-on-surface-variant">
-                  Please enter your institutional credentials to access the rapid triage assessment
-                  panel.
+                  {t('login.subtitle')}
                 </p>
               </div>
 
@@ -127,7 +127,7 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
                     className="flex items-center justify-between font-label-md text-label-md text-on-surface font-semibold"
                     htmlFor="staff-id"
                   >
-                    <span>Staff ID / Official Email</span>
+                    <span>{t('login.staffIdLabel')}</span>
                     <span className="font-label-sm text-label-sm text-outline">
                       NIC / NHM Domain
                     </span>
@@ -138,129 +138,84 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
                     </span>
                     <input
                       id="staff-id"
-                      name="staffId"
                       type="text"
                       required
                       value={staffId}
                       onChange={(e) => setStaffId(e.target.value)}
-                      placeholder="e.g. PHC-TN-4082 or dr.kavitha@nhm.gov.in"
-                      className="w-full h-12 pl-11 pr-4 rounded-xl bg-surface-container-lowest font-body-md text-body-md text-on-surface placeholder:text-outline/70 shadow-sm focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all duration-200"
+                      placeholder="e.g. PHC-TN-4082"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/60 text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-xs"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label
-                    className="font-label-md text-label-md text-on-surface font-semibold block"
-                    htmlFor="staff-password"
-                  >
-                    Password
-                  </label>
+                  <div className="flex items-center justify-between">
+                    <label
+                      className="font-label-md text-label-md text-on-surface font-semibold"
+                      htmlFor="staff-password"
+                    >
+                      {t('login.passwordLabel')}
+                    </label>
+                  </div>
                   <div className="relative flex items-center">
                     <span className="material-symbols-outlined absolute left-3.5 text-[20px] text-primary select-none pointer-events-none">
                       lock
                     </span>
                     <input
                       id="staff-password"
-                      name="password"
                       type={showPassword ? 'text' : 'password'}
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••••••"
-                      className="w-full h-12 pl-11 pr-12 rounded-xl bg-surface-container-lowest font-body-md text-body-md text-on-surface placeholder:text-outline/70 shadow-sm focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary transition-all duration-200"
+                      placeholder="Enter access credentials"
+                      className="w-full pl-11 pr-11 py-3 rounded-xl bg-surface-container-lowest border border-outline-variant/60 text-on-surface placeholder:text-outline font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all shadow-xs"
                     />
                     <button
                       type="button"
-                      aria-label="Toggle password visibility"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute right-3 p-1.5 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3.5 text-outline hover:text-on-surface p-0.5 rounded cursor-pointer"
+                      title={showPassword ? 'Hide password' : 'Show password'}
                     >
-                      <span className="material-symbols-outlined text-[20px]">
+                      <span className="material-symbols-outlined text-[18px]">
                         {showPassword ? 'visibility_off' : 'visibility'}
                       </span>
                     </button>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-1">
-                  <label className="flex items-center gap-2.5 cursor-pointer group">
+                <div className="flex items-center justify-between pt-1 text-xs">
+                  <label className="flex items-center gap-2 cursor-pointer select-none text-on-surface-variant font-medium">
                     <input
                       type="checkbox"
                       checked={rememberTerminal}
                       onChange={(e) => setRememberTerminal(e.target.checked)}
-                      className="w-4 h-4 rounded text-primary focus:ring-primary accent-primary cursor-pointer"
+                      className="w-4 h-4 rounded text-primary focus:ring-primary accent-[#087F78]"
                     />
-                    <span className="font-label-sm text-label-sm text-on-surface-variant group-hover:text-on-surface transition-colors select-none">
-                      Remember this terminal
-                    </span>
+                    <span>{t('login.rememberTerminal')}</span>
                   </label>
-                  <button
-                    type="button"
-                    onClick={() => setShowForgotNote((prev) => !prev)}
-                    className="font-label-sm text-label-sm text-primary hover:text-primary-container font-semibold transition-colors focus:outline-none focus:underline cursor-pointer"
-                  >
-                    Forgot Password?
-                  </button>
                 </div>
 
-                {showForgotNote && (
-                  <div className="p-3 rounded-xl bg-surface-container text-on-surface-variant font-body-sm text-body-sm">
-                    Contact your District Medical Officer (DMO) IT Nodal Desk or dial NHM Helpline
-                    104 for instant NIC token reset.
-                  </div>
-                )}
-
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={authStatus !== 'idle'}
-                    className="w-full min-h-[48px] py-3.5 px-space-md rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg font-medium shadow-[0_4px_16px_-2px_rgba(0,104,95,0.35)] active:scale-[0.98] transition-all flex items-center justify-center gap-2 group cursor-pointer disabled:opacity-80"
-                  >
-                    <span>Sign In to PHC Portal</span>
-                    <span className="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">
-                      arrow_forward
-                    </span>
-                  </button>
-                </div>
-
-                {authStatus !== 'idle' && (
-                  <div className="p-space-sm rounded-xl bg-secondary-container text-on-secondary-container font-label-md text-label-md flex items-center gap-2">
-                    <span className="material-symbols-outlined text-[18px]">verified</span>
-                    <span>
-                      {authStatus === 'authenticating'
-                        ? 'Authenticating PHC Medical Registry Credentials...'
-                        : 'Authenticated. Launching PHC Triage Desk...'}
-                    </span>
-                  </div>
-                )}
+                <button
+                  type="submit"
+                  disabled={authStatus !== 'idle'}
+                  className="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-semibold text-sm shadow-md transition-all active:scale-[0.99] cursor-pointer flex items-center justify-center gap-2"
+                >
+                  {authStatus === 'authenticating' ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                      <span>{t('login.signingIn')}</span>
+                    </>
+                  ) : (
+                    <span>{t('login.signInBtn')}</span>
+                  )}
+                </button>
               </form>
 
-              {/* Security Assurance Card */}
-              <div className="p-space-md rounded-2xl bg-surface-container-lowest/80 shadow-sm flex items-start gap-space-sm">
-                <div className="p-1.5 rounded-lg bg-secondary-container/50 text-on-secondary-container">
-                  <span className="material-symbols-outlined text-[18px]">encrypted</span>
-                </div>
-                <div className="space-y-0.5">
-                  <p className="font-label-md text-label-md text-on-surface font-semibold">
-                    Protected Clinical Access
-                  </p>
-                  <p className="font-body-sm text-body-sm text-on-surface-variant leading-snug">
-                    Secure access exclusively for authorized PHC staff, medical officers &amp; field
-                    health personnel. Unauthorized access attempts are monitored and recorded under
-                    Health Ministry regulations.
-                  </p>
-                </div>
+              {/* Demo Hint */}
+              <div className="p-3 rounded-xl bg-secondary-container/40 text-on-secondary-container text-xs flex items-center gap-2">
+                <span className="material-symbols-outlined text-[16px] text-primary">info</span>
+                <span>{t('login.demoHint')}</span>
               </div>
-            </div>
-
-            {/* Terminal System Metadata Footer */}
-            <div className="w-full max-w-md mx-auto pt-space-md flex items-center justify-between font-label-sm text-label-sm text-outline">
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                <span>Version 2.4.1 (Clinical Triage Build)</span>
-              </div>
-              <span>Ayushman Bharat Digital Ready</span>
             </div>
           </div>
         </div>
@@ -268,3 +223,4 @@ export const StaffLoginScreen: React.FC<StaffLoginScreenProps> = ({ onNavigate }
     </div>
   );
 };
+

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ASSETS, ScreenId } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
 
 interface PhcLocatorScreenProps {
   onNavigate: (screen: ScreenId) => void;
@@ -44,6 +45,7 @@ const PHC_CENTERS = [
 export const PhcLocatorScreen: React.FC<PhcLocatorScreenProps> = ({ onNavigate }) => {
   const [selectedCenter, setSelectedCenter] = useState(PHC_CENTERS[0].id);
   const [bookedSlot, setBookedSlot] = useState<{ centerName: string; slot: string } | null>(null);
+  const { t } = useTranslation();
 
   return (
     <div className="max-w-[1280px] mx-auto px-gutter py-space-lg sm:py-space-xl">
@@ -51,13 +53,13 @@ export const PhcLocatorScreen: React.FC<PhcLocatorScreenProps> = ({ onNavigate }
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm mb-2">
             <span className="w-2 h-2 rounded-full bg-secondary"></span>
-            <span>National Rural Health Mission • PHC Directory</span>
+            <span>{t('locator.badge')}</span>
           </div>
           <h1 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">
-            Nearby Primary Health Centers (PHC)
+            {t('locator.title')}
           </h1>
           <p className="font-body-md text-body-md text-on-surface-variant mt-1">
-            Verified government health stations synced with your NALAM AI Triage Record #TN-4082-89.
+            {t('locator.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-space-sm">
@@ -66,14 +68,14 @@ export const PhcLocatorScreen: React.FC<PhcLocatorScreenProps> = ({ onNavigate }
             onClick={() => onNavigate('triage-result')}
             className="px-4 py-2.5 rounded-xl bg-surface-container-lowest text-on-surface hover:bg-surface-container font-label-lg text-label-lg shadow-sm cursor-pointer"
           >
-            ← Back to Triage Record
+            {t('locator.backToTriage')}
           </button>
           <button
             type="button"
             onClick={() => onNavigate('symptom-check')}
             className="px-4 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow-sm cursor-pointer"
           >
-            New Symptom Check
+            {t('locator.newCheck')}
           </button>
         </div>
       </div>

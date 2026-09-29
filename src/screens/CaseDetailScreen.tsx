@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ASSETS, PriorityCase } from '../data/mockData';
+import { useTranslation } from '../context/LanguageContext';
 
 interface CaseDetailScreenProps {
   caseData: PriorityCase;
@@ -12,6 +13,7 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
   onBack,
   onUpdateCase,
 }) => {
+  const { t } = useTranslation();
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const [isAmbulanceModalOpen, setIsAmbulanceModalOpen] = useState(false);
@@ -72,7 +74,7 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
                 <span className="material-symbols-outlined text-[18px] group-hover:-translate-x-0.5 transition-transform">
                   arrow_back
                 </span>
-                <span className="font-semibold text-on-surface">Back to Priority Cases</span>
+                <span className="font-semibold text-on-surface">{t('case.backToPriority')}</span>
               </button>
               <span className="text-outline-variant font-body-sm text-body-sm">/</span>
               <span className="px-2 py-0.5 rounded bg-surface-container-high font-mono font-label-sm text-label-sm text-on-surface tracking-wider">
@@ -89,7 +91,7 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
                 className="px-space-md py-2.5 rounded-xl bg-surface-container-lowest text-on-surface-variant hover:text-primary hover:bg-surface-container-low shadow-sm font-label-lg text-label-lg flex items-center gap-2 transition-all cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[18px]">edit_note</span>
-                <span>Add Clinical Note</span>
+                <span>{t('case.addClinicalNote')}</span>
               </button>
 
               <button
@@ -105,8 +107,8 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
                 </span>
                 <span>
                   {caseData.ambulanceDispatched
-                    ? '108 ALS En Route (ETA 8m)'
-                    : 'Dispatch 108 ALS Transfer'}
+                    ? t('case.ambulanceDispatched')
+                    : t('case.dispatch108')}
                 </span>
               </button>
 
@@ -127,8 +129,8 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
                 </span>
                 <span>
                   {caseData.reviewed
-                    ? `Routed to ${caseData.assignedDoctor} ✓`
-                    : 'Mark as Reviewed & Route to Doctor'}
+                    ? `${t('case.reviewedRouted')} ✓`
+                    : t('case.markComplete')}
                 </span>
               </button>
             </div>
@@ -726,7 +728,7 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
             <textarea
               value={noteInput}
               onChange={(e) => setNoteInput(e.target.value)}
-              placeholder="Enter observations, preliminary observations, or vitals verification..."
+              placeholder={t('case.notePlaceholder')}
               rows={4}
               className="w-full p-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary resize-none"
             />
@@ -736,14 +738,14 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
                 onClick={() => setIsNoteModalOpen(false)}
                 className="px-space-md py-2 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md cursor-pointer"
               >
-                Cancel
+                {t('case.cancel')}
               </button>
               <button
                 type="button"
                 onClick={handleSaveNote}
                 className="px-space-md py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md shadow-sm cursor-pointer"
               >
-                Save &amp; Transmit
+                {t('case.saveNote')}
               </button>
             </div>
           </div>
@@ -758,7 +760,7 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
               <div className="flex items-center gap-2 text-error">
                 <span className="material-symbols-outlined">emergency_home</span>
                 <h3 className="font-headline-sm text-headline-sm text-on-surface">
-                  Confirm 108 ALS Emergency Transfer
+                  {t('case.confirmAmbulanceTitle')}
                 </h3>
               </div>
               <button
@@ -770,9 +772,7 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
               </button>
             </div>
             <p className="font-body-md text-body-md text-on-surface-variant">
-              Initiate <strong>108 ALS Transfer Request</strong> for{' '}
-              <strong>Case #{caseData.id}</strong> ({caseData.demographic}) to{' '}
-              <strong>Tirunelveli Medical College Cath Lab</strong> (32 km • Hot Route ~38 mins)?
+              {t('case.confirmAmbulanceDesc')}
             </p>
             <div className="flex justify-end gap-2">
               <button
@@ -780,14 +780,14 @@ export const CaseDetailScreen: React.FC<CaseDetailScreenProps> = ({
                 onClick={() => setIsAmbulanceModalOpen(false)}
                 className="px-space-md py-2 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md cursor-pointer"
               >
-                Cancel
+                {t('case.cancel')}
               </button>
               <button
                 type="button"
                 onClick={handleConfirmAmbulance}
                 className="px-space-md py-2 rounded-lg bg-error text-on-error font-label-md text-label-md shadow-sm cursor-pointer"
               >
-                Confirm &amp; Dispatch 108 ALS
+                {t('case.confirmDispatchBtn')}
               </button>
             </div>
           </div>

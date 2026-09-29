@@ -39,19 +39,19 @@ PHC Staff Dashboard
 🩺 Triage Levels
 🟢 Routine
 
-Normal consultation is recommended.
+       Normal consultation is recommended.
 
 🟡 Medical Attention
 
-The patient should consult a healthcare professional.
+      The patient should consult a healthcare professional.
 
 🟠 Urgent
 
-The patient may require medical attention sooner.
+     The patient may require medical attention sooner.
 
 🔴 Emergency
 
-Immediate medical attention is indicated based on detected warning signs.
+     Immediate medical attention is indicated based on detected warning signs.
 
 🛠️ Technologies Used
 React.js – Frontend user interface

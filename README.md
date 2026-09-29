@@ -1,235 +1,151 @@
 🏥 NALAM AI – AI-Assisted Symptom Triage Chatbot
+📌 Project Overview
 
-NALAM AI is an AI-assisted symptom triage chatbot designed for Rural Primary Health Centers (PHCs). It helps patients describe their symptoms in simple language, identifies potential emergency warning signs, categorizes cases based on urgency, and provides appropriate next-step guidance.
+NALAM AI is an AI-assisted symptom triage chatbot designed to support patients and healthcare staff in rural Primary Health Centers (PHCs).
 
-⚠️ NALAM AI is a triage and decision-support system. It does not provide medical diagnosis or replace qualified healthcare professionals.
+The system allows patients to describe their symptoms through text or voice in their preferred language. It understands the symptoms, checks for predefined emergency warning signs, and classifies the patient's urgency level.
 
-🎯 Problem Statement
+NALAM AI does not diagnose diseases. Instead, it helps identify how urgently a patient may need medical attention and guides them toward the appropriate next step.
 
-Patients in rural areas may face difficulties in:
-
-Describing their symptoms clearly
-Understanding the urgency of their condition
-Accessing appropriate healthcare services
-Communicating due to language barriers
-Identifying potential emergency warning signs
-
-PHC staff may also need a simple way to identify and prioritize patients based on urgency.
-
-NALAM AI addresses these challenges through an AI-assisted conversational triage platform.
-
-💡 Solution
-
-NALAM AI provides a simple and user-friendly chatbot through which patients can:
-
-Enter their symptoms
-Provide basic health information
-Communicate in multiple languages
-Use voice-based interaction
-Answer follow-up questions
-Receive an urgency-based triage result
-Get clear next-step guidance
-
-PHC staff can also review and prioritize patient cases through a dedicated dashboard.
-
-🔄 Workflow
-
+🚀 Features
+🤖 AI-assisted symptom understanding
+💬 Interactive symptom chatbot
+🎤 Voice-based symptom input
+🌐 Multilingual support – English, Tamil and Hindi
+📝 Collects patient information and symptom details
+🚨 Emergency warning-sign detection
+🟢 Routine / 🟡 Medical Attention / 🟠 Urgent / 🔴 Emergency triage levels
+🏥 PHC staff dashboard
+📋 Triage record management
+📍 Nearby PHC center information
+🔐 Staff login
+📊 Patient priority visualization
+🔄 How It Works
 Patient
-↓
-Text / Voice Input
-↓
-Patient Information
-↓
-NLP / AI Processing
-↓
-Symptom Extraction
-↓
-Emergency Warning Detection
-↓
+   ↓
+Enter Symptoms / Voice Input
+   ↓
+Basic Information Collection
+   ↓
+NLP / LLM Symptom Understanding
+   ↓
+Emergency Warning Sign Detection
+   ↓
 Triage Classification
-↓
+   ↓
 Next-Step Guidance
-↓
+   ↓
 PHC Staff Dashboard
+🩺 Triage Levels
+🟢 Routine
 
-🚨 Triage Levels
+Normal consultation is recommended.
 
-🟢 Routine – No immediate concern identified
+🟡 Medical Attention
 
-🟡 Medical Attention – Healthcare consultation recommended
+The patient should consult a healthcare professional.
 
-🟠 Urgent – Prompt medical attention required
+🟠 Urgent
 
-🔴 Emergency – Immediate medical attention required
+The patient may require medical attention sooner.
 
-🧠 Key Features
-👤 Patient Side
-Simple AI-assisted symptom chatbot
-Text-based symptom input
-Voice-based interaction
-Patient information collection
-Symptom duration and severity collection
-Multilingual interface
-Triage result
-Next-step guidance
-🚨 Emergency Detection
-Identifies predefined emergency warning signs
-Provides immediate emergency guidance
-Helps prioritize critical cases
-🌐 Multilingual Support
+🔴 Emergency
 
-Supported languages:
+Immediate medical attention is indicated based on detected warning signs.
 
-English
-Tamil
-Hindi
+🛠️ Technologies Used
+React.js – Frontend user interface
+Python – Backend and AI processing
+FastAPI – Backend API development
+NLP – Understanding patient symptom descriptions
+LLM – Natural-language interaction and symptom information extraction
+Rule-Based Engine – Detection of predefined emergency warning signs
+Firebase / Database – Storing triage records and patient information
+Speech-to-Text – Voice-based symptom input
+HTML & CSS / Tailwind CSS – UI design
+Git & GitHub – Version control and project collaboration
+📋 Patient Parameters
 
-The selected language is applied across the application interface.
+The system collects important information such as:
 
-🏥 PHC Staff Dashboard
-Staff login
-Patient case review
-Triage queue
-Priority-based case identification
-Case review
-Nearby PHC information
-📊 Parameters
-Basic Patient Information
 Age
 Gender
-Existing health conditions
-Relevant medical history
-Symptom Information
-Main symptom
+Main symptoms
 Additional symptoms
-Duration
+Duration of symptoms
 Severity
-Symptom progression
-Emergency Warning Signs
+Existing medical conditions
+Relevant medical history
+Emergency warning signs
+🧠 AI Components
+1. NLP / LLM
+
+The system understands symptoms written in natural language.
+
+Example:
+
+"I have fever and severe headache for two days."
+
+The system can extract:
+
+Symptom  : Fever
+Symptom  : Headache
+Duration : 2 Days
+Severity : Severe
+2. Emergency Detection
+
+The system checks predefined warning signs such as:
+
 Severe breathing difficulty
 Chest pain
 Loss of consciousness
 Severe bleeding
-Seizure
+Seizures
 Severe allergic reaction
-Other predefined warning signs
+3. Triage Classification
+
+Based on the collected information and emergency checks, the system assigns an appropriate triage category.
+
+🖥️ Main Screens
+🏠 AI Assistant Home
+💬 Symptom Chat
+📋 Triage Record
+🔐 Staff Login
+🏥 PHC Triage Queue
+👨‍⚕️ Case Review
+📍 Nearby PHC Center
 💡 Innovation
 
 NALAM AI combines:
 
-Conversational AI + Multilingual Interaction + Voice Support + Emergency Warning Detection + Triage Classification + PHC Case Prioritization
+AI-based symptom understanding
+Multilingual interaction
+Voice-based input
+Emergency warning-sign detection
+Explainable triage
+PHC patient prioritization
 
-The system focuses on assisting patients and healthcare workers without replacing professional medical decision-making.
+The main idea is:
 
-🖥️ Main Screens
-AI Assistant Home
-Symptom Chat
-Triage Record
-Staff Login
-PHC Triage Queue
-Case Review
-Nearby PHC Center
-🛠️ Technology Stack
+“Don't diagnose the disease. Identify the urgency and guide the next step.”
 
-Frontend:
-
-React
-TypeScript
-Vite
-Tailwind CSS
-
-AI / NLP:
-
-Natural Language Processing
-Large Language Model (LLM)
-Symptom Extraction
-Emergency Rule Engine
-Triage Classification
-
-Voice:
-
-Speech-to-Text
-Text-to-Speech
-
-Application:
-
-React Router
-Responsive UI
-Multilingual Translation System
-Local Storage
-🏗️ System Architecture
-
-Patient
-↓
-Text / Voice Input
-↓
-NLP / LLM Layer
-↓
-Symptom Extraction
-↓
-Emergency Rule Engine
-↓
-Triage Classification
-↓
-Next-Step Guidance
-↓
-PHC Staff Dashboard
-
-🎨 UI Design
-
-NALAM AI uses a clean and modern healthcare-focused interface.
-
-Design highlights:
-
-Full-height sidebar navigation
-Simple dashboard layout
-Clean teal and white color palette
-Responsive design
-Clear typography
-Accessible interface
-Rural healthcare-focused visuals
-Minimal and professional UI
-🌍 Target Users
-
-Primary Users:
-
-Rural patients
-Patients visiting Primary Health Centers
-
-Secondary Users:
-
-PHC staff
-Healthcare workers
-🔐 Privacy & Security
-
-The system considers healthcare data privacy through:
-
-Controlled access
-Secure handling of patient information
-Appropriate patient identifiers
-Restricted staff access
-Minimal exposure of sensitive information
+🎯 Target Users
+👨‍⚕️ PHC Healthcare Staff
+🧑‍⚕️ Community Health Workers
+👨‍👩‍👧 Rural Patients
+🏥 Primary Health Centers
+🔐 Privacy & Safety
+Patient information should be handled securely.
+The system is intended to assist healthcare workflows.
+It does not replace doctors or healthcare professionals.
+Triage results should be treated as decision-support information, not a medical diagnosis.
 🔮 Future Enhancements
-Additional Indian language support
-Improved voice interaction
-Offline and low-bandwidth support
-PHC system integration
-Appointment assistance
-Secure patient history
-Healthcare worker notifications
-Integration with verified healthcare resources
-Improved triage models using validated datasets
-⚠️ Medical Disclaimer
-
-NALAM AI is an AI-assisted symptom triage prototype.
-
-It does not:
-
-Diagnose diseases
-Prescribe medicines
-Replace doctors
-Provide definitive medical decisions
-
-The system is intended to assist with symptom understanding, urgency classification, emergency warning identification, and next-step guidance.
-
-For medical emergencies, users should seek immediate professional medical assistance.
+📱 Mobile application
+🗣️ More regional languages
+🎤 Improved multilingual voice interaction
+📊 Advanced PHC analytics
+🔔 Emergency notifications
+🏥 Integration with PHC systems
+📈 Improved triage models using validated clinical datasets
+🔒 Enhanced healthcare data security
+📊 Project Status
